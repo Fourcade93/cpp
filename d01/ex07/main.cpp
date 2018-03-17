@@ -22,15 +22,17 @@ int main(int ac, char **av)
 	std::string str;
 	std::string s1(av[2]);
 	std::string s2(av[3]);
+	std::string::size_type start = 0;
 	std::ofstream ofs(std::string(av[1]) + ".replace");
 
-	while (getline(ifs, str))
+	getline(ifs, str, (char)ifs.eof());
+	while ((start = str.find(s1, start)) != std::string::npos)
 	{
-		if (str == s1)
-			ofs << s2 << std::endl;
-		else
-			ofs << str << std::endl;
+		str.erase(start, s1.size());
+		str.insert(start, s2);
+		start += s2.size();
 	}
+	ofs << str;
 	ifs.close();
 	ofs.close();
 	return 0;
