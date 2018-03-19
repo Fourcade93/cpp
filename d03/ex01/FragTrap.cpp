@@ -19,7 +19,7 @@ void	FragTrap::rangedAttack(std::string const & target)
 
 void	FragTrap::meleeAttack(std::string const & target)
 {
-	std::cout << "\033[0;33mFR4G-TP \033[1;33m" + this->_name + "\033[0;33m attacks \033[1;33m" + target + "\033[0;33m at melee, causing " << this->_rangedDamage << " points of damage !\033[0m" << std::endl;
+	std::cout << "\033[0;33mFR4G-TP \033[1;33m" + this->_name + "\033[0;33m attacks \033[1;33m" + target + "\033[0;33m at melee, causing " << this->_maleeDamage << " points of damage !\033[0m" << std::endl;
 }
 
 void	FragTrap::takeDamage(unsigned int amount)

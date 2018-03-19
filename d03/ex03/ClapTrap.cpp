@@ -51,3 +51,8 @@ void	ClapTrap::beRepaired(unsigned int amount)
 		std::cout << "\033[1;36m" + this->_name + "\033[0;36m has got " << this->_hitPoints - health << " points of health\033[0m" << std::endl;
 	}
 }
+
+std::string const & ClapTrap::getName(void) const
+{
+	return (this->_name);
+}
