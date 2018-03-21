@@ -1,5 +1,6 @@
 #include "ft_retro.hpp"
 #include "EnemiesMap.hpp"
+#include "PlayerBullets.hpp"
 #include "Player.hpp"
 
 void	move_pl(Player *pl, char ch)
@@ -14,7 +15,7 @@ void	move_pl(Player *pl, char ch)
 		pl->moveBottom();
 }
 
-void	update_win(WINDOW *game_win, EnemiesMap *enemies, Player *pl, double seconds)
+void	update_win(WINDOW *game_win, EnemiesMap *enemies, Player *pl, PlayerBullets *pl_shots, double seconds)
 {
 	attron(COLOR_PAIR(INFO_CL_PAIR));
 	mvprintw(1, 2, "Time: %-10.2f", seconds / 1000);
@@ -22,6 +23,7 @@ void	update_win(WINDOW *game_win, EnemiesMap *enemies, Player *pl, double second
 	wattron(game_win, COLOR_PAIR(RED_CL_PAIR));
 	enemies->printLines(game_win);
 	wattron(game_win, COLOR_PAIR(PLR_CL_PAIR));
+	pl_shots->printLines(game_win);
 	mvwprintw(game_win, pl->getY(), pl->getX(), "^");
 
 	wrefresh(game_win);
@@ -46,6 +48,13 @@ void	check_collision(EnemiesMap *enemies, Player *pl)
 	}
 }
 
+void	fire_if(PlayerBullets *pl_shots, Player *pl, EnemiesMap *enemies)
+{
+	if (enemies->checkIfTarget(pl->getY(), pl->getX()))
+		pl_shots->addBullets(pl->getY() - 1, pl->getX());
+	pl_shots->checkCollision(enemies);
+}
+
 void	play_game(WINDOW *game_win)
 {
 	Player *pl = new Player;
@@ -55,6 +64,7 @@ void	play_game(WINDOW *game_win)
 	std::chrono::high_resolution_clock::time_point cur;
 	double seconds = 0;
 	EnemiesMap *enemies = new EnemiesMap;
+	PlayerBullets *pl_shots = new PlayerBullets;
 
 	wattron(game_win, A_BOLD);
 
@@ -67,10 +77,13 @@ void	play_game(WINDOW *game_win)
 			checkTime = std::chrono::high_resolution_clock::now();
 			enemies->addLine();
 		}
+		if (!((int)seconds % 50))
+			pl_shots->shiftLines();
 		if (ch > 1 && ch < 6)
 			move_pl(pl, ch);
 		seconds = std::chrono::duration_cast<std::chrono::milliseconds>(cur - begin).count();
 		check_collision(enemies, pl);
-		update_win(game_win, enemies, pl, seconds);
+		fire_if(pl_shots, pl, enemies);
+		update_win(game_win, enemies, pl, pl_shots, seconds);
 	}
 }

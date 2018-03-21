@@ -15,6 +15,7 @@ public:
 	void	addLine();
 	void	printLines(WINDOW *game_win);
 	int		checkCollision(int y, int x);
+	int		checkIfTarget(int y, int x);
 };
 
 EnemiesMap::EnemiesMap(void) : _count(0) {}
@@ -36,7 +37,7 @@ void	EnemiesMap::addLine(void)
 		this->_lines[i] = this->_lines[i - 1];
 	}
 	this->_lines[0] = new Line;
-	(this->_count < 47) ? this->_count++ : this->_count;
+	(this->_count < 48) ? this->_count++ : this->_count;
 }
 
 void	EnemiesMap::printLines(WINDOW *game_win)
@@ -51,6 +52,17 @@ int		EnemiesMap::checkCollision(int y, int x)
 {
 	if (this->_count > y)
 		return (this->_lines[y]->checkForKill(x));
+	return (0);
+}
+
+int		EnemiesMap::checkIfTarget(int y, int x)
+{
+	y = (this->_count < y) ? this->_count : y;
+	for (int i = 0; i < y; ++i)
+	{
+		if (this->_lines[i]->checkIfTarget(x))
+			return (1);
+	}
 	return (0);
 }
 

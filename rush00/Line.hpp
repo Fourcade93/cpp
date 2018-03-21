@@ -18,7 +18,8 @@ public:
 	~Line();
 
 	void	print(int y, WINDOW *game_win);
-	int checkForKill(int x);
+	int		checkForKill(int x);
+	int		checkIfTarget(int x);
 	
 };
 
@@ -69,6 +70,16 @@ void	Line::shiftEnemies(int ind)
 		ind++;
 	}
 	this->_count--;
+}
+
+int		Line::checkIfTarget(int x)
+{
+	for (int i = 0; i < this->_count; ++i)
+	{
+		if (this->_enemies[i]->getX() == x)
+			return (1);
+	}
+	return (0);
 }
 
 #endif
