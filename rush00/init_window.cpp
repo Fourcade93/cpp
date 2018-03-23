@@ -16,6 +16,7 @@ static void	init_colors(void)
 	init_pair(PLR_CL_PAIR, COLOR_GREEN, COLOR_BLACK);
 	init_pair(RED_CL_PAIR, COLOR_RED, COLOR_BLACK);
 	init_pair(INFO_CL_PAIR, COLOR_YELLOW, COLOR_BLACK);
+	init_pair(ENSHOT_CL_PAIR, COLOR_YELLOW, COLOR_BLACK);
 }
 
 WINDOW*		init_window(void)

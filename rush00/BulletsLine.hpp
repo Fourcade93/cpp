@@ -1,29 +1,22 @@
 #ifndef BULLETSLINE_HPP
 # define BULLETSLINE_HPP
 
+# include "ABulletsLine.hpp"
 # include "EnemiesMap.hpp"
-# include "Bullet.hpp"
-# include <ncurses.h>
 
 class EnemiesMap;
 
-class BulletsLine
+class BulletsLine : public ABulletsLine
 {
-private:
-	Bullet *_bullets[WIN_WIDTH - 2];
-	int _count;
-
+protected:
 	void	shiftBullets(int ind);
 public:
-	BulletsLine();
-	~BulletsLine();
-	
-	void	push(int x);
-	int		checkCollision(int y, EnemiesMap *enemies);
-	void	print(WINDOW *game_win, int y);
-};
+	BulletsLine() {}
 
-BulletsLine::BulletsLine(void) : _count(0) { return; }
+	~BulletsLine();
+
+	void		checkCollision(int y, EnemiesMap *enemies, Player *pl);
+};
 
 BulletsLine::~BulletsLine(void)
 {
@@ -32,26 +25,6 @@ BulletsLine::~BulletsLine(void)
 		delete this->_bullets[i];
 	}
 	return;
-}
-
-void	BulletsLine::push(int x)
-{
-	this->_bullets[this->_count] = new Bullet(x);
-	this->_count++;
-}
-
-int		BulletsLine::checkCollision(int y, EnemiesMap *enemies)
-{
-	for (int i = 0; i < this->_count; ++i)
-	{
-		if (enemies->checkCollision(y, this->_bullets[i]->getX()))
-		{
-			delete this->_bullets[i];
-			this->shiftBullets(i);
-			return (1);
-		}
-	}
-	return (0);
 }
 
 void	BulletsLine::shiftBullets(int ind)
@@ -64,11 +37,19 @@ void	BulletsLine::shiftBullets(int ind)
 	this->_count--;
 }
 
-void	BulletsLine::print(WINDOW *game_win, int y)
+void		BulletsLine::checkCollision(int y, EnemiesMap *enemies, Player *pl)
 {
+	int points;
+
 	for (int i = 0; i < this->_count; ++i)
 	{
-		mvwprintw(game_win, y, this->_bullets[i]->getX(), "%c", '\"');
+		if ((points = enemies->checkCollision(y, this->_bullets[i]->getX())))
+		{
+			system("afplay -t 0.5 burst.mp3 > /dev/null &");
+			pl->increasePoints(points);
+			delete this->_bullets[i];
+			this->shiftBullets(i--);
+		}
 	}
 }
 

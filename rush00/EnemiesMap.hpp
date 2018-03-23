@@ -1,7 +1,7 @@
 #ifndef ENEMIESMAP_HPP
 # define ENEMIESMAP_HPP
 
-#include "Line.hpp"
+# include "Line.hpp"
 
 class EnemiesMap
 {
@@ -16,6 +16,7 @@ public:
 	void	printLines(WINDOW *game_win);
 	int		checkCollision(int y, int x);
 	int		checkIfTarget(int y, int x);
+	void	addBullets(EnemyBullets *en_shots);
 };
 
 EnemiesMap::EnemiesMap(void) : _count(0) {}
@@ -64,6 +65,14 @@ int		EnemiesMap::checkIfTarget(int y, int x)
 			return (1);
 	}
 	return (0);
+}
+
+void	EnemiesMap::addBullets(EnemyBullets *en_shots)
+{
+	for (int i = 0; i < this->_count; ++i)
+	{
+		this->_lines[i]->addBullets(i, en_shots);
+	}
 }
 
 #endif

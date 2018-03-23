@@ -1,5 +1,4 @@
-#ifndef BULLET_HPP
-# define BULLET_HPP
+
 
 class Bullet
 {
@@ -21,4 +20,4 @@ int		Bullet::getX(void) const
 	return (this->_x);
 }
 
-#endif
+

@@ -4,6 +4,8 @@
 
 # include <ncurses.h>
 # include "Comet.hpp"
+# include "Xshot.hpp"
+# include "EnemyBullets.hpp"
 
 class Line
 {
@@ -20,6 +22,7 @@ public:
 	void	print(int y, WINDOW *game_win);
 	int		checkForKill(int x);
 	int		checkIfTarget(int x);
+	void	addBullets(int y, EnemyBullets *en_shots);
 	
 };
 
@@ -28,7 +31,10 @@ Line::Line(void)
 	this->_count = rand() % 2;
 	for (int i = 0; i < this->_count; ++i)
 	{
-		this->_enemies[i] = new Comet(rand() % 98);
+		if (rand() % 4 == 2)
+			this->_enemies[i] = new Xshot(rand() % 98);
+		else
+			this->_enemies[i] = new Comet(rand() % 98);
 	}
 }
 
@@ -50,13 +56,17 @@ void	Line::print(int y, WINDOW *game_win)
 
 int Line::checkForKill(int x)
 {
+	int ret = 1;
+
 	for (int i = 0; i < this->_count; ++i)
 	{
 		if (this->_enemies[i]->getX() == x)
 		{
+			if (this->_enemies[i]->getView() == L'W')
+				ret = 4;
 			delete this->_enemies[i];
 			this->shiftEnemies(i);
-			return (1);
+			return (ret);
 		}
 	}
 	return (0);
@@ -80,6 +90,15 @@ int		Line::checkIfTarget(int x)
 			return (1);
 	}
 	return (0);
+}
+
+void	Line::addBullets(int y, EnemyBullets *en_shots)
+{
+	for (int i = 0; i < this->_count; ++i)
+	{
+		if (this->_enemies[i]->getView() == L'W')
+			en_shots->addBullets(y + 1, this->_enemies[i]->getX());
+	}
 }
 
 #endif

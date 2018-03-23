@@ -19,6 +19,7 @@
 # define PLR_CL_PAIR 2
 # define RED_CL_PAIR 3
 # define INFO_CL_PAIR 4
+# define ENSHOT_CL_PAIR 5
 
 /*
 ** init_window.cpp

@@ -1,4 +1,4 @@
-SRC := main.cpp init_window.cpp play_game.cpp
+SRC := main.cpp init_window.cpp play_game.cpp 
 OBJ := $(SRC:.cpp=.o)
 NAME = ft_retro
 CC = clang++

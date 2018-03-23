@@ -13,7 +13,7 @@ public:
 	
 	void	addBullets(int y, int x);
 	void	shiftLines();
-	void	checkCollision(EnemiesMap *enemies);
+	void	checkCollision(EnemiesMap *enemies, Player *pl);
 	void	printLines(WINDOW *game_win);
 };
 
@@ -40,6 +40,7 @@ void	PlayerBullets::addBullets(int y, int x)
 	if (!this->_lines[y])
 		this->_lines[y] = new BulletsLine;
 	this->_lines[y]->push(x);
+	system("afplay -t 0.5 pl_shot.mp3 > /dev/null &");
 }
 
 void	PlayerBullets::shiftLines(void)
@@ -53,12 +54,12 @@ void	PlayerBullets::shiftLines(void)
 	this->_lines[49] = NULL;
 }
 
-void	PlayerBullets::checkCollision(EnemiesMap *enemies)
+void	PlayerBullets::checkCollision(EnemiesMap *enemies, Player *pl)
 {
 	for (int i = 0; i < 50; ++i)
 	{
 		if (this->_lines[i])
-			this->_lines[i]->checkCollision(i, enemies);
+			this->_lines[i]->checkCollision(i, enemies, pl);
 	}
 }
 
