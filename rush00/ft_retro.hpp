@@ -3,6 +3,7 @@
 
 # include <chrono>
 # include <iostream>
+# include <fstream>
 # include <ncurses.h>
 # include <unistd.h>
 

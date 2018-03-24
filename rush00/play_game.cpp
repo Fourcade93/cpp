@@ -4,6 +4,19 @@
 #include "EnemyBullets.hpp"
 #include "Player.hpp"
 
+void	print_game_over(WINDOW *game_win)
+{
+	std::ifstream ifs("game_over");
+	char str[1600];
+
+	if (!ifs)
+		return;
+	wmove(game_win, 15, 0);
+	ifs.read(str, 1600);
+	wprintw(game_win, "%s", str);
+	ifs.close();
+}
+
 void	move_pl(Player *pl, char ch)
 {
 	if (ch == 4)
@@ -28,15 +41,15 @@ void	update_win(WINDOW *game_win, EnemiesMap *enemies, Player *pl, PlayerBullets
 	en_shots->printLines(game_win);
 	wattron(game_win, COLOR_PAIR(PLR_CL_PAIR));
 	pl_shots->printLines(game_win);
-	mvwprintw(game_win, pl->getY(), pl->getX(), "^");
+	mvwprintw(game_win, pl->getY(), pl->getX(), "%C", L'🚀');
 
 	wrefresh(game_win);
 	werase(game_win);
 }
 
-void	check_collision(EnemiesMap *enemies, Player *pl, PlayerBullets *pl_shots, EnemyBullets *en_shots)
+void	check_collision(EnemiesMap *enemies, Player *pl, PlayerBullets *pl_shots, EnemyBullets *en_shots, WINDOW *game_win)
 {
-	pl_shots->checkCollision(enemies, pl);
+	pl_shots->checkCollision(enemies, pl, game_win);
 	en_shots->checkCollision(pl);
 	if (enemies->checkCollision(pl->getY(), pl->getX()))
 		pl->decreaseLives();
@@ -45,9 +58,12 @@ void	check_collision(EnemiesMap *enemies, Player *pl, PlayerBullets *pl_shots, E
 		mvprintw(2, 2, "Lives: %-5d", pl->getLives());
 		delete pl;
 		delete enemies;
+		print_game_over(game_win);
 		mvprintw(2, 45, "GAME OVER");
+		mvprintw(3, 39, "Press enter to finish");
 		refresh();
-		while (getch() == ERR)
+		wrefresh(game_win);
+		while (getch() != '\n')
 			;
 		endwin();
 		exit(0);
@@ -103,7 +119,7 @@ void	play_game(WINDOW *game_win)
 			move_pl(pl, ch);
 		}
 		seconds = std::chrono::duration_cast<std::chrono::milliseconds>(cur - begin).count();
-		check_collision(enemies, pl, pl_shots, en_shots);
+		check_collision(enemies, pl, pl_shots, en_shots, game_win);
 		update_win(game_win, enemies, pl, pl_shots, seconds, en_shots);
 	}
 }

@@ -13,7 +13,7 @@ public:
 	
 	void	addBullets(int y, int x);
 	void	shiftLines();
-	void	checkCollision(EnemiesMap *enemies, Player *pl);
+	void	checkCollision(EnemiesMap *enemies, Player *pl, WINDOW *game_win);
 	void	printLines(WINDOW *game_win);
 };
 
@@ -54,12 +54,12 @@ void	PlayerBullets::shiftLines(void)
 	this->_lines[49] = NULL;
 }
 
-void	PlayerBullets::checkCollision(EnemiesMap *enemies, Player *pl)
+void	PlayerBullets::checkCollision(EnemiesMap *enemies, Player *pl, WINDOW *game_win)
 {
 	for (int i = 0; i < 50; ++i)
 	{
 		if (this->_lines[i])
-			this->_lines[i]->checkCollision(i, enemies, pl);
+			this->_lines[i]->checkCollision(i, enemies, pl, game_win);
 	}
 }
 

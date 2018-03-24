@@ -42,7 +42,6 @@ void		EnemyBulletsLine::checkCollision(Player *pl)
 	{
 		if (pl->getX() == this->_bullets[i]->getX())
 		{
-			system("afplay -t 0.5 hit.mp3 > /dev/null &");
 			pl->decreaseLives();
 			delete this->_bullets[i];
 			this->shiftBullets(i);

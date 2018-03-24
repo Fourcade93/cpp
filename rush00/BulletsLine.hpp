@@ -3,6 +3,7 @@
 
 # include "ABulletsLine.hpp"
 # include "EnemiesMap.hpp"
+# include <ncurses.h>
 
 class EnemiesMap;
 
@@ -15,7 +16,7 @@ public:
 
 	~BulletsLine();
 
-	void		checkCollision(int y, EnemiesMap *enemies, Player *pl);
+	void		checkCollision(int y, EnemiesMap *enemies, Player *pl, WINDOW *game_win);
 };
 
 BulletsLine::~BulletsLine(void)
@@ -37,7 +38,7 @@ void	BulletsLine::shiftBullets(int ind)
 	this->_count--;
 }
 
-void		BulletsLine::checkCollision(int y, EnemiesMap *enemies, Player *pl)
+void		BulletsLine::checkCollision(int y, EnemiesMap *enemies, Player *pl, WINDOW *game_win)
 {
 	int points;
 
@@ -46,6 +47,9 @@ void		BulletsLine::checkCollision(int y, EnemiesMap *enemies, Player *pl)
 		if ((points = enemies->checkCollision(y, this->_bullets[i]->getX())))
 		{
 			system("afplay -t 0.5 burst.mp3 > /dev/null &");
+			mvwprintw(game_win, y, this->_bullets[i]->getX(), "%C", L'💥');
+			wrefresh(game_win);
+			usleep(80000);
 			pl->increasePoints(points);
 			delete this->_bullets[i];
 			this->shiftBullets(i--);
