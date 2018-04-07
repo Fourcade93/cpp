@@ -7,8 +7,5 @@ int main(void)
 
 	game_win = init_window();
 	play_game(game_win);
-	while (getch() != 32)
-		;
-	endwin();
 	return 0;
 }

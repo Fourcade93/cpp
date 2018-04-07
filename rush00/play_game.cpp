@@ -122,4 +122,5 @@ void	play_game(WINDOW *game_win)
 		check_collision(enemies, pl, pl_shots, en_shots, game_win);
 		update_win(game_win, enemies, pl, pl_shots, seconds, en_shots);
 	}
+	endwin();
 }

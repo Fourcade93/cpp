@@ -51,8 +51,8 @@ void		BulletsLine::checkCollision(int y, EnemiesMap *enemies, Player *pl, WINDOW
 			pl->increasePoints(points);
 			delete this->_bullets[i];
 			this->shiftBullets(i--);
-			wrefresh(game_win);
-			usleep(80000);
+			// wrefresh(game_win);
+			// usleep(80000);
 		}
 	}
 }
