@@ -31,6 +31,7 @@ void	move_pl(Player *pl, char ch)
 
 void	update_win(WINDOW *game_win, EnemiesMap *enemies, Player *pl, PlayerBullets *pl_shots, double seconds, EnemyBullets * en_shots)
 {
+	werase(game_win);
 	attron(COLOR_PAIR(INFO_CL_PAIR));
 	mvprintw(1, 2, "Time: %-10.2f", seconds / 1000);
 	mvprintw(2, 2, "Lives: %-5d", pl->getLives());
@@ -41,10 +42,9 @@ void	update_win(WINDOW *game_win, EnemiesMap *enemies, Player *pl, PlayerBullets
 	en_shots->printLines(game_win);
 	wattron(game_win, COLOR_PAIR(PLR_CL_PAIR));
 	pl_shots->printLines(game_win);
-	mvwprintw(game_win, pl->getY(), pl->getX(), "%C", L'🚀');
+	mvwprintw(game_win, pl->getY(), pl->getX(), "%C", L'^');
 
 	wrefresh(game_win);
-	werase(game_win);
 }
 
 void	check_collision(EnemiesMap *enemies, Player *pl, PlayerBullets *pl_shots, EnemyBullets *en_shots, WINDOW *game_win)
