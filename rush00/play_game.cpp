@@ -96,7 +96,7 @@ void	play_game(WINDOW *game_win)
 	wattron(game_win, A_BOLD);
 
 	begin = checkTime  = std::chrono::high_resolution_clock::now();
-	while ((ch = getch()) != 32)
+	while ((ch = getch()) != 27)
 	{
 		cur = std::chrono::high_resolution_clock::now();
 		if (i++ % 1000 == 0)
