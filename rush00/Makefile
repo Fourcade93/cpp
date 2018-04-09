@@ -1,4 +1,6 @@
-SRC := main.cpp init_window.cpp play_game.cpp 
+SRC := main.cpp init_window.cpp play_game.cpp ABulletsLine.cpp AEnemy.cpp Bullet.cpp \
+BulletsLine.cpp Comet.cpp EnemiesMap.cpp EnemyBullets.cpp EnemyBulletsLine.cpp \
+Player.cpp PlayerBullets.cpp Xshot.cpp Line.cpp
 OBJ := $(SRC:.cpp=.o)
 NAME = ft_retro
 CC = clang++

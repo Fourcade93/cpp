@@ -1,13 +1,10 @@
 #ifndef ABULLETSLINE_HPP
 # define ABULLETSLINE_HPP
 
-// # include "EnemiesMap.hpp"
 # include "Player.hpp"
 # include "Bullet.hpp"
 # include "ft_retro.hpp"
 
-// class EnemiesMap;
-// class Bullet;
 
 class ABulletsLine
 {
@@ -26,21 +23,5 @@ public:
 	// virtual void checkCollision() = 0;
 	void	print(WINDOW *game_win, int y);
 };
-
-ABulletsLine::ABulletsLine(void) : _count(0) { return; }
-
-void	ABulletsLine::push(int x)
-{
-	this->_bullets[this->_count] = new Bullet(x);
-	this->_count++;
-}
-
-void	ABulletsLine::print(WINDOW *game_win, int y)
-{
-	for (int i = 0; i < this->_count; ++i)
-	{
-		mvwprintw(game_win, y, this->_bullets[i]->getX(), "%c", '\'');
-	}
-}
 
 #endif

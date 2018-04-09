@@ -6,7 +6,7 @@
 class Comet : public AEnemy
 {
 public:
-	Comet(int x) : AEnemy(L'◊', x) {}
+	Comet(int x);
 	~Comet() {}
 };
 

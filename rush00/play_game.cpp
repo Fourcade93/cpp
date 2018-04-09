@@ -70,11 +70,6 @@ void	check_collision(EnemiesMap *enemies, Player *pl, PlayerBullets *pl_shots, E
 	}
 }
 
-void	fire_if(PlayerBullets *pl_shots, Player *pl, EnemiesMap *enemies)
-{
-	if (enemies->checkIfTarget(pl->getY(), pl->getX()))
-		pl_shots->addBullets(pl->getY() - 1, pl->getX());}
-
 void	enemy_shot(EnemyBullets *en_shots, EnemiesMap *enemies)
 {
 	enemies->addBullets(en_shots);
@@ -110,14 +105,11 @@ void	play_game(WINDOW *game_win)
 		{
 			checkTime = std::chrono::high_resolution_clock::now();
 			enemies->addLine();
-			fire_if(pl_shots, pl, enemies);
 		}
+		if (ch == 32)
+			pl_shots->addBullets(pl->getY() - 1, pl->getX());
 		if (ch > 1 && ch < 6)
-		{
-			if (ch == 4 || ch == 5)
-				fire_if(pl_shots, pl, enemies);
 			move_pl(pl, ch);
-		}
 		seconds = std::chrono::duration_cast<std::chrono::milliseconds>(cur - begin).count();
 		check_collision(enemies, pl, pl_shots, en_shots, game_win);
 		update_win(game_win, enemies, pl, pl_shots, seconds, en_shots);

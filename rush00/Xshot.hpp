@@ -6,8 +6,8 @@
 class Xshot : public AEnemy
 {
 public:
-	Xshot(int x) : AEnemy(L'W', x) {}
-	~Xshot() {}
+	Xshot(int x);
+	~Xshot();
 };
 
 #endif

@@ -7,12 +7,12 @@ private:
 	wchar_t _view;
 	int _x;
 public:
-	AEnemy(wchar_t view, int x) : _view(view), _x(x) {}
-	virtual ~AEnemy() {}
+	AEnemy(wchar_t view, int x);
+	virtual ~AEnemy();
 
-	wchar_t	getView(void) const { return (this->_view); }
+	wchar_t	getView(void) const;
 
-	int	getX(void) const { return (this->_x); }
+	int	getX(void) const;
 };
 
 #endif
